@@ -8,6 +8,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
 public class FileExtensionService {
@@ -26,5 +29,9 @@ public class FileExtensionService {
 
     public void delete(FileExtensionRequestDto requestDto) {
         fileExtensionRepository.delete(requestDto.toEntity());
+    }
+
+    public List<FileExtensionResponseDto> findAll() {
+        return fileExtensionRepository.findAll().stream().map(FileExtensionResponseDto::new).collect(Collectors.toList());
     }
 }
