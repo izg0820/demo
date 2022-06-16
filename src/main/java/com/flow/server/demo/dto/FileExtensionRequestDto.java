@@ -11,7 +11,6 @@ public class FileExtensionRequestDto {
 
     private String extension;
 
-    @Builder
     public FileExtensionRequestDto(String extension) {
         this.extension = extension;
     }
