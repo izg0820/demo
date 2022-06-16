@@ -28,4 +28,15 @@ public class FileExtensionControllerTest {
         assertThat(requestDto.toEntity().getExtension()).isEqualTo(responseDto.getExtension());
     }
 
+    @Test
+    public void delete() {
+        FileExtensionRequestDto requestDto = new FileExtensionRequestDto("mp3");
+        fileExtensionController.save(requestDto);
+
+        fileExtensionController.delete(requestDto);
+        FileExtensionResponseDto responseDto = fileExtensionController.findById(requestDto.getExtension());
+        assertThat(responseDto.getExtension()).isNull();
+    }
+
+
 }

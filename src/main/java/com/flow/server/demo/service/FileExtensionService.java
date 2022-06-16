@@ -20,9 +20,11 @@ public class FileExtensionService {
     }
 
     public FileExtensionResponseDto findById(String extension) {
-        FileExtension fileExtension = fileExtensionRepository.findById(extension).orElse(null);
+        FileExtension fileExtension = fileExtensionRepository.findById(extension).orElse(new FileExtension());
         return new FileExtensionResponseDto(fileExtension);
     }
 
-
+    public void delete(FileExtensionRequestDto requestDto) {
+        fileExtensionRepository.delete(requestDto.toEntity());
+    }
 }
