@@ -1,6 +1,16 @@
-package com.flow.server.demo.model;
+package com.flow.server.demo.domain;
 
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@NoArgsConstructor @Getter
+@Entity
 public class FileExtension {
+    @Id
     private String extension;
 
     public FileExtension(String extension) {
@@ -20,4 +30,5 @@ public class FileExtension {
             throw new IllegalArgumentException();
         }
     }
+
 }
