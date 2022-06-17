@@ -1,18 +1,23 @@
 package com.flow.server.demo.controller;
 
+import com.flow.server.demo.domain.FileExtension;
 import com.flow.server.demo.dto.FileExtensionRequestDto;
 import com.flow.server.demo.dto.FileExtensionResponseDto;
 import com.flow.server.demo.service.FileExtensionService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
-@RestController
+@Controller
 @RequiredArgsConstructor
 public class FileExtensionController {
 
     private final FileExtensionService fileExtensionService;
+
 
     @PutMapping("/extension")
     public void save(@RequestBody FileExtensionRequestDto fileExtensionRequestDto) {
@@ -29,9 +34,13 @@ public class FileExtensionController {
         fileExtensionService.delete(requestDto);
     }
 
-    @GetMapping("extensions")
-    public List<FileExtensionResponseDto> findAll() {
-        return fileExtensionService.findAll();
+    @GetMapping("extensions/fixed")
+    public List<FileExtensionResponseDto> findFixedExtensionAll() {
+        return fileExtensionService.findFixedExtensionAll();
     }
 
+    @GetMapping("extensions/custom")
+    public List<FileExtensionResponseDto> findCustomExtensionAll() {
+        return fileExtensionService.findCustomExtensionAll();
+    }
 }

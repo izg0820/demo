@@ -39,14 +39,25 @@ public class FileExtensionControllerTest {
     }
 
     @Test
-    public void findAll() {
-        FileExtensionRequestDto requestDto1 = new FileExtensionRequestDto("mp3");
+    public void findCustomExtensionAll() {
+        FileExtensionRequestDto requestDto1 = new FileExtensionRequestDto("mp3", false);
         fileExtensionController.save(requestDto1);
-        FileExtensionRequestDto requestDto2 = new FileExtensionRequestDto("mp4");
+        FileExtensionRequestDto requestDto2 = new FileExtensionRequestDto("mp4", false);
         fileExtensionController.save(requestDto2);
 
-        List<FileExtensionResponseDto> responseDto = fileExtensionController.findAll();
-        assertThat(responseDto.size()).isEqualTo(2);
+        List<FileExtensionResponseDto> responseDto = fileExtensionController.findCustomExtensionAll();
+        assertThat(responseDto).extracting("fixed").containsExactly(false, false);
+    }
+
+    @Test
+    public void findDefaultExtensionAll() {
+        FileExtensionRequestDto requestDto1 = new FileExtensionRequestDto("cmd", true);
+        fileExtensionController.save(requestDto1);
+        FileExtensionRequestDto requestDto2 = new FileExtensionRequestDto("exe", true);
+        fileExtensionController.save(requestDto2);
+
+        List<FileExtensionResponseDto> responseDto = fileExtensionController.findFixedExtensionAll();
+        assertThat(responseDto).extracting("fixed").containsExactly(true, true);
     }
 
 

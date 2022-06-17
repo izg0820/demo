@@ -10,8 +10,11 @@ public class FileExtensionResponseDto {
 
     private String extension;
 
+    private boolean fixed;
+
     public FileExtensionResponseDto(FileExtension entity) {
         this.extension = entity.getExtension();
+        this.fixed = entity.isFixed();
     }
 
 }

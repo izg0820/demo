@@ -13,10 +13,20 @@ public class FileExtension {
     @Id
     private String extension;
 
+    private boolean fixed;
+
     public FileExtension(String extension) {
         validateLength(extension);
         validateCharacter(extension);
         this.extension = extension;
+        this.fixed = false;
+    }
+
+    public FileExtension(String extension, boolean fixed) {
+        validateLength(extension);
+        validateCharacter(extension);
+        this.extension = extension;
+        this.fixed = fixed;
     }
 
     private void validateLength(String extension) {

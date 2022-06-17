@@ -31,7 +31,11 @@ public class FileExtensionService {
         fileExtensionRepository.delete(requestDto.toEntity());
     }
 
-    public List<FileExtensionResponseDto> findAll() {
-        return fileExtensionRepository.findAll().stream().map(FileExtensionResponseDto::new).collect(Collectors.toList());
+    public List<FileExtensionResponseDto> findFixedExtensionAll() {
+        return fileExtensionRepository.findByFixed().stream().map(FileExtensionResponseDto::new).collect(Collectors.toList());
+    }
+
+    public List<FileExtensionResponseDto> findCustomExtensionAll() {
+        return fileExtensionRepository.findByCustom().stream().map(FileExtensionResponseDto::new).collect(Collectors.toList());
     }
 }

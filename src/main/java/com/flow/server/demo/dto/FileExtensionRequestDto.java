@@ -11,11 +11,19 @@ public class FileExtensionRequestDto {
 
     private String extension;
 
+    private boolean fixed;
+
     public FileExtensionRequestDto(String extension) {
         this.extension = extension;
+        this.fixed = false;
+    }
+
+    public FileExtensionRequestDto(String extension, boolean fixed) {
+        this.extension = extension;
+        this.fixed = fixed;
     }
 
     public FileExtension toEntity() {
-        return new FileExtension(extension);
+        return new FileExtension(extension, fixed);
     }
 }
