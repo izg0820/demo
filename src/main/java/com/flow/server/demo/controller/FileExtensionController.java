@@ -20,12 +20,8 @@ public class FileExtensionController {
 
     @GetMapping
     public String home(Model model) {
-        List<FileExtensionResponseDto> list = new ArrayList<>();
-        list.add(new FileExtensionResponseDto(new FileExtension("bat")));
-        list.add(new FileExtensionResponseDto(new FileExtension("cmd")));
-        list.add(new FileExtensionResponseDto(new FileExtension("exe")));
-
-        model.addAttribute("fileExtensionList", list);
+        List<FileExtensionResponseDto> fixedFileExtensionList = fileExtensionService.findFixedExtensionAll();
+        model.addAttribute("fileExtensionList", fixedFileExtensionList);
         model.addAttribute("item", new FileExtensionRequestDto());
         return "index";
     }

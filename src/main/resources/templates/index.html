@@ -3,43 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <title>Flow</title>
-    <link href="css/bootstrap.css" rel="stylesheet">
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/css/bootstrap-grid.css}" rel="stylesheet">
 </head>
 <body>
-<div>
-    <table>
-        <tr>
-            <td><label>고정확장자</label></td>
-            <td>
-                <th:block th:each="fileExtension : ${fileExtensionList}">
-                    <input type="checkbox" name="extension" value="${fileExtension.extension}"
-                           th:text=" ${fileExtension.extension}">
-                </th:block>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <label>커스텀 확장자</label>
-            </td>
-            <td>
-              <span>
-                  <form action="index.html" th:action th:object="${item}" method="post">
-                        <input type="text" th:field="*{extension}" placeholder='확장자 입력'/>
-                        <button> +추가 </button>
-                  </form>
-              </span>
-            </td>
-        </tr>
-        <tr>
-            <td></td>
-            <td>
-                <div class ="border rounded" style="height: 100px" >
-                    <span>Hello</span>
-                </div>
-            </td>
-        </tr>
-    </table>
+
+<div class="container">
+    <div class="row">
+        <div class="col-1">
+            <label class="form-label">고정확장자</label>
+        </div>
+        <div class="col-6">
+            <div th:each="fileExtension : ${fileExtensionList}" class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" th:field="${fileExtensionList}" th:value="${fileExtension.extension}" th:checked="${fileExtension.isFixed()}">
+                <label class="form-check-label" th:for="${#ids.prev('')}"  th:text="${fileExtension.extension}"></label>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <label>커스텀 확장자</label>
+        <span>
+              <form action="index.html" th:action th:object="${item}" method="post">
+                    <input type="text" th:field="*{extension}" placeholder='확장자 입력'/>
+                    <button> +추가 </button>
+              </form>
+        </span>
+    </div>
+<!--    <div class="border rounded" style="height: 100px">-->
+<!--        <span>Hello</span>-->
+<!--    </div>-->
 </div>
 
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js">  </script>
+
+<script th:href="@{/js/bootstrap.js}"></script>
 </body>
 </html>
