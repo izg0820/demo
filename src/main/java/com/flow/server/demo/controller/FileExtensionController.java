@@ -18,6 +18,17 @@ public class FileExtensionController {
 
     private final FileExtensionService fileExtensionService;
 
+    @GetMapping
+    public String home(Model model) {
+        List<FileExtensionResponseDto> list = new ArrayList<>();
+        list.add(new FileExtensionResponseDto(new FileExtension("bat")));
+        list.add(new FileExtensionResponseDto(new FileExtension("cmd")));
+        list.add(new FileExtensionResponseDto(new FileExtension("exe")));
+
+        model.addAttribute("fileExtensionList", list);
+        model.addAttribute("item", new FileExtensionRequestDto());
+        return "index";
+    }
 
     @PutMapping("/extension")
     public void save(@RequestBody FileExtensionRequestDto fileExtensionRequestDto) {

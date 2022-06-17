@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Flow</title>
+    <link href="css/bootstrap.css" rel="stylesheet">
+</head>
+<body>
+<div>
+    <table>
+        <tr>
+            <td><label>고정확장자</label></td>
+            <td>
+                <th:block th:each="fileExtension : ${fileExtensionList}">
+                    <input type="checkbox" name="extension" value="${fileExtension.extension}"
+                           th:text=" ${fileExtension.extension}">
+                </th:block>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label>커스텀 확장자</label>
+            </td>
+            <td>
+              <span>
+                  <form action="index.html" th:action th:object="${item}" method="post">
+                        <input type="text" th:field="*{extension}" placeholder='확장자 입력'/>
+                        <button> +추가 </button>
+                  </form>
+              </span>
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+                <div class ="border rounded" style="height: 100px" >
+                    <span>Hello</span>
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>
+
+</body>
+</html>
