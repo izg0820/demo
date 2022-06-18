@@ -4,8 +4,9 @@ import com.flow.server.demo.domain.FileExtension;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Getter
+@Getter @Setter
 public class FileExtensionResponseDto {
 
     private String extension;

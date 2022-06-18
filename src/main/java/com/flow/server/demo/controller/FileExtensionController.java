@@ -18,17 +18,22 @@ public class FileExtensionController {
 
     private final FileExtensionService fileExtensionService;
 
-    @GetMapping
+    @GetMapping("/")
     public String home(Model model) {
         List<FileExtensionResponseDto> fixedFileExtensionList = fileExtensionService.findFixedExtensionAll();
-        model.addAttribute("fileExtensionList", fixedFileExtensionList);
-        model.addAttribute("item", new FileExtensionRequestDto());
+        List<FileExtensionResponseDto> customFileExtensionList = fileExtensionService.findCustomExtensionAll();
+
+        model.addAttribute("fixedFileExtensionList", fixedFileExtensionList);
+        model.addAttribute("customFileExtensionList", customFileExtensionList);
+        model.addAttribute("fileExtensionRequestDto", new FileExtensionRequestDto());
         return "index";
     }
 
-    @PutMapping("/extension")
-    public void save(@RequestBody FileExtensionRequestDto fileExtensionRequestDto) {
+    @PostMapping("/extension")
+    public String save(FileExtensionRequestDto fileExtensionRequestDto) {
+        System.out.println("requestDto = " + fileExtensionRequestDto.getExtension());
         fileExtensionService.save(fileExtensionRequestDto);
+        return "redirect:/";
     }
 
     @GetMapping("/extension")
