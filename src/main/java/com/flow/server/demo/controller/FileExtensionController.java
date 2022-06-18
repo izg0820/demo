@@ -6,8 +6,10 @@ import com.flow.server.demo.dto.FileExtensionResponseDto;
 import com.flow.server.demo.service.FileExtensionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,25 +27,35 @@ public class FileExtensionController {
 
         model.addAttribute("fixedFileExtensionList", fixedFileExtensionList);
         model.addAttribute("customFileExtensionList", customFileExtensionList);
+        model.addAttribute("customFileExtensionSize", customFileExtensionList.size());
         model.addAttribute("fileExtensionRequestDto", new FileExtensionRequestDto());
         return "index";
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @PostMapping("/extension")
-    public String save(FileExtensionRequestDto fileExtensionRequestDto) {
-        System.out.println("requestDto = " + fileExtensionRequestDto.getExtension());
+    public RedirectView save(FileExtensionRequestDto fileExtensionRequestDto) {
         fileExtensionService.save(fileExtensionRequestDto);
-        return "redirect:/";
+        return new RedirectView("/");
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @DeleteMapping("/extension/{param}")
+    public void delete(@PathVariable String param) {
+        FileExtensionRequestDto requestDto = new FileExtensionRequestDto(param);
+        fileExtensionService.delete(requestDto);
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @PutMapping("/extension")
+    public RedirectView update(FileExtensionRequestDto fileExtensionRequestDto) {
+        fileExtensionService.update(fileExtensionRequestDto);
+        return new RedirectView("/");
     }
 
     @GetMapping("/extension")
     public FileExtensionResponseDto findById(String extension) {
         return fileExtensionService.findById(extension);
-    }
-
-    @DeleteMapping("/extension")
-    public void delete(FileExtensionRequestDto requestDto) {
-        fileExtensionService.delete(requestDto);
     }
 
     @GetMapping("extensions/fixed")

@@ -38,4 +38,12 @@ public class FileExtensionService {
     public List<FileExtensionResponseDto> findCustomExtensionAll() {
         return fileExtensionRepository.findByCustom().stream().map(FileExtensionResponseDto::new).collect(Collectors.toList());
     }
+
+    public void update(FileExtensionRequestDto requestDto) {
+        FileExtension findFileExtension = fileExtensionRepository.findById(requestDto.getExtension()).orElse(null);
+        if (findFileExtension != null) {
+            findFileExtension.setFixed(requestDto.isFixed());
+        }
+        fileExtensionRepository.save(findFileExtension);
+    }
 }

@@ -11,46 +11,68 @@
 <div class="container">
     <div class="row gx-4">
         <div class="col-1">
-            <label class="form-label">고정확장자</label>
+            <label class="form-label fw-bold">고정확장자</label>
         </div>
         <div class="col-6">
             <form action="/extension" method="post">
                 <div th:each="fixedFileExtension : ${fixedFileExtensionList}" class="form-check form-check-inline">
-                    <input class="form-check-input" type="checkbox" th:field="${fixedFileExtensionList}" th:value="${fixedFileExtension.extension}" th:checked="${fixedFileExtension.isFixed()}">
-                    <label class="form-check-label" th:for="${#ids.prev('')}"  th:text="${fixedFileExtension.extension}"></label>
+                    <input class="form-check-input" type="checkbox" th:field="${fixedFileExtensionList}"
+                           th:value="${fixedFileExtension.extension}" th:checked="${fixedFileExtension.isFixed()}">
+                    <label class="form-check-label" th:for="${#ids.prev('')}"
+                           th:text="${fixedFileExtension.extension}"></label>
                 </div>
             </form>
         </div>
     </div>
     <div class="row gx-4">
         <div class="col-1">
-            <label class="form-label">커스텀확장자</label>
+            <label class="form-label fw-bold">커스텀확장자</label>
         </div>
         <div class="col-8">
-            <form class = "row row-cols-2" action="/extension" th:object="${fileExtensionRequestDto}" method="post">
+            <form class="row row-cols-2" action="/extension" th:object="${fileExtensionRequestDto}" method="post">
                 <div class="col-6">
                     <input class="form-control" type="text" th:field="*{extension}" placeholder='확장자 입력'/>
                 </div>
                 <div class="col-2">
-                    <button class="btn btn-secondary" type="submit"> +추가 </button>
+                    <button class="btn btn-outline-success" type="submit"> +추가</button>
                 </div>
             </form>
         </div>
     </div>
     <div class="row gx-4">
-        <div class="card col-6"  style="margin-top : 10px">
+        <div class="card col-6" style="margin-top : 10px">
             <div class="card-body">
-                <th:block th:each="customFileExtension : ${customFileExtensionList}">
-                    <label class="btn btn-primary" th:text="${customFileExtension.extension}"><button type="button" class="btn-close" aria-label="Close"/></label>
-                </th:block>
+                <div> [[${customFileExtensionSize}]] / 200</div>
+                <div class="badge bg-success bg-primary" th:each="customFileExtension : ${customFileExtensionList}">
+                    <label th:for="${customFileExtension.extension}">
+                        [[${customFileExtension.extension}]]
+                    </label>
+                    <button type="button" class="btn-close" aria-label="Close"
+                            th:extenstion="${customFileExtension.extension}"
+                            th:onclick="deleteCustom(this.getAttribute('extenstion'))"></button>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
+<script th:inline="javascript">
+    function deleteCustom(param) {
+        console.log(param);
+        fetch("/extension/" + param, {
+            method: "DELETE",
+        }).then((response) => {
+            console.log(response);
+            response.json()
+            window.location = '/';
+        })
+            .then((data) => console.log(data))
+    }
+</script>
+
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js">  </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
 
 <script th:href="@{/js/bootstrap.js}"></script>
 </body>

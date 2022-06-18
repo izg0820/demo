@@ -33,9 +33,23 @@ public class FileExtensionControllerTest {
         FileExtensionRequestDto requestDto = new FileExtensionRequestDto("mp3");
         fileExtensionController.save(requestDto);
 
-        fileExtensionController.delete(requestDto);
+        fileExtensionController.delete(requestDto.getExtension());
         FileExtensionResponseDto responseDto = fileExtensionController.findById(requestDto.getExtension());
         assertThat(responseDto.getExtension()).isNull();
+    }
+
+    @Test
+    public void update() {
+        FileExtensionRequestDto requestDto = new FileExtensionRequestDto("mp3");
+        fileExtensionController.save(requestDto);
+
+        FileExtensionResponseDto findFileExtension = fileExtensionController.findById(requestDto.getExtension());
+        findFileExtension.setFixed(true);
+
+        fileExtensionController.update(new FileExtensionRequestDto(findFileExtension.getExtension(), findFileExtension.isFixed()));
+
+        findFileExtension = fileExtensionController.findById(requestDto.getExtension());
+        assertThat(findFileExtension.isFixed()).isTrue();
     }
 
     @Test
