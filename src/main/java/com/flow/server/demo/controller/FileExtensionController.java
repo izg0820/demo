@@ -5,12 +5,14 @@ import com.flow.server.demo.dto.FileExtensionRequestDto;
 import com.flow.server.demo.dto.FileExtensionResponseDto;
 import com.flow.server.demo.service.FileExtensionService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,7 +34,6 @@ public class FileExtensionController {
         return "index";
     }
 
-    @Transactional(rollbackFor = Exception.class)
     @PostMapping("/extension")
     public String save(FileExtensionRequestDto fileExtensionRequestDto) {
         fileExtensionService.save(fileExtensionRequestDto);
@@ -46,10 +47,9 @@ public class FileExtensionController {
         return "redirect:/";
     }
 
-    @PatchMapping("extension/{param}")
-    @Transactional
-    public String update(@PathVariable String param, @RequestBody FileExtensionRequestDto fileExtensionRequestDto) {
-        fileExtensionService.update(param, fileExtensionRequestDto);
+    @PutMapping(value = "/extension/{id}")
+    public String update(@PathVariable("id") String id, FileExtensionRequestDto fileExtensionRequestDto) {
+        fileExtensionService.save(fileExtensionRequestDto);
         return "redirect:/";
     }
 

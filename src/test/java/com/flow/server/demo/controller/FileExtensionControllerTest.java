@@ -44,7 +44,8 @@ public class FileExtensionControllerTest {
         FileExtensionRequestDto requestDto = new FileExtensionRequestDto("mp3");
         fileExtensionController.save(requestDto);
 
-        fileExtensionController.update(requestDto.getExtension(), new FileExtensionRequestDto(requestDto.getExtension(), requestDto.isFixed(), false));
+        requestDto.setUse(false);
+        fileExtensionController.save(requestDto);
 
         FileExtensionResponseDto findFileExtension = fileExtensionController.findById(requestDto.getExtension());
         assertThat(findFileExtension.isUse()).isFalse();

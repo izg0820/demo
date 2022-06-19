@@ -17,7 +17,6 @@ public class FileExtensionService {
 
     private final FileExtensionRepository fileExtensionRepository;
 
-    @Transactional
     public void save(FileExtensionRequestDto requestDto) {
         this.fileExtensionRepository.save(requestDto.toEntity());
     }
@@ -39,12 +38,9 @@ public class FileExtensionService {
         return fileExtensionRepository.findByCustom().stream().map(FileExtensionResponseDto::new).collect(Collectors.toList());
     }
 
-    public void update(String param, FileExtensionRequestDto requestDto) {
-        FileExtension findFileExtension = fileExtensionRepository.findById(param).orElse(null);
-        if (findFileExtension != null) {
-//            findFileExtension.setFixed(findFileExtension.isFixed());
-            findFileExtension.setUse(requestDto.isUse());
-        }
-        fileExtensionRepository.save(findFileExtension);
+    public void update(String extension) {
+        FileExtensionRequestDto requestDto = new FileExtensionRequestDto(extension);
+
+        this.fileExtensionRepository.save(requestDto.toEntity());
     }
 }
