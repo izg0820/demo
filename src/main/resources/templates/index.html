@@ -75,7 +75,7 @@
 
     function validate() {
         var input = document.getElementById("extension").value
-        if (input.length < 1 || input.length > 20 || !duplicateCheck(input)) {
+        if (input.length < 1 || input.length > 20 || !/^[a-zA-Z0-9\$]*$/.test(input) ||!duplicateCheck(input) ) {
             alert("유효하지 않는 값입니다.")
             return false;
         }
