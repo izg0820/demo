@@ -38,11 +38,7 @@ public class FileExtensionController {
 
     @PostMapping("/extension")
     public String save(FileExtensionRequestDto fileExtensionRequestDto) {
-        try {
-            fileExtensionService.save(fileExtensionRequestDto);
-        } catch (IllegalArgumentException exception) {
-            return "redirect:/";
-        }
+        fileExtensionService.save(fileExtensionRequestDto);
         return "redirect:/";
     }
 

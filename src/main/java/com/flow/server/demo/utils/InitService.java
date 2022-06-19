@@ -22,11 +22,7 @@ public class InitService {
     public void init() {
         String[] fixedExtensions = Constant.FixedExtenstion;
         for (String fixedExtension : fixedExtensions) {
-            if (fixedExtension.equals("com") || fixedExtension.equals("exe")) {
-                fileExtensionRepository.save(new FileExtension(fixedExtension, true, true));
-            } else {
-                fileExtensionRepository.save(new FileExtension(fixedExtension, true, false));
-            }
+            fileExtensionRepository.save(new FileExtension(fixedExtension, true, false));
         }
     }
 }
