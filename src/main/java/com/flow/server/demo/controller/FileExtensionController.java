@@ -18,28 +18,15 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Controller
+@RestController
 @RequiredArgsConstructor
 public class FileExtensionController {
 
     private final FileExtensionService fileExtensionService;
 
-    @GetMapping("/")
-    public String home(Model model) {
-        List<FileExtensionResponseDto> fixedFileExtensionList = fileExtensionService.findFixedExtensionAll();
-        List<FileExtensionResponseDto> customFileExtensionList = fileExtensionService.findCustomExtensionAll();
-
-        model.addAttribute("fixedFileExtensionList", fixedFileExtensionList);
-        model.addAttribute("customFileExtensionList", customFileExtensionList);
-        model.addAttribute("customFileExtensionSize", customFileExtensionList.size());
-        model.addAttribute("fileExtensionRequestDto", new FileExtensionRequestDto());
-        return "index";
-    }
-
-    @PostMapping("/extension")
-    public String save(FileExtensionRequestDto fileExtensionRequestDto) {
-        fileExtensionService.save(fileExtensionRequestDto);
-        return "redirect:/";
+    @PostMapping("/api/extension")
+    public String save(@RequestBody FileExtensionRequestDto fileExtensionRequestDto) {
+        return fileExtensionService.save(fileExtensionRequestDto);
     }
 
     @DeleteMapping("/extension/{id}")

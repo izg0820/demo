@@ -17,8 +17,8 @@ public class FileExtensionService {
 
     private final FileExtensionRepository fileExtensionRepository;
 
-    public void save(FileExtensionRequestDto requestDto) {
-        this.fileExtensionRepository.save(requestDto.toEntity());
+    public String save(FileExtensionRequestDto requestDto) {
+        return this.fileExtensionRepository.save(requestDto.toEntity()).getExtension();
     }
 
     public FileExtensionResponseDto findById(String extension) {
