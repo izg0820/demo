@@ -15,14 +15,16 @@
         </div>
         <div class="col-6">
             <div th:each="fixedFileExtension, idx : ${fixedFileExtensionList}" class="form-check form-check-inline">
-                <form id="updateFixedExtension" th:action="@{'/extension/'+${fixedFileExtension.extension}}" th:object="${fileExtensionRequestDto}" method="post">
+                <form id="updateFixedExtension" th:action="@{'/extension/'+${fixedFileExtension.extension}}"
+                      th:object="${fileExtensionRequestDto}" method="post">
                     <input type="hidden" name="_method" value="PUT"/>
                     <input class="form-check-input" type="checkbox"
-                           th:id = "${fixedFileExtension.extension}"
+                           th:id="${fixedFileExtension.extension}"
                            th:value="${fixedFileExtension.isUse}"
                            th:checked="${fixedFileExtension.isUse eq true}"
                            th:onchange="updateFixedOrNot([[${fixedFileExtension.extension}]])">
-                    <label th:for="${fixedFileExtension.extension}" class="form-check-label" th:text="${fixedFileExtension.extension}"></label>
+                    <label th:for="${fixedFileExtension.extension}" class="form-check-label"
+                           th:text="${fixedFileExtension.extension}"></label>
                     <button th:id="'update_'+ ${fixedFileExtension.extension}" style="display: none"></button>
                 </form>
             </div>
@@ -33,7 +35,8 @@
             <label class="form-label fw-bold">커스텀확장자</label>
         </div>
         <div class="col-8">
-            <form class="row row-cols-2" action="/extension" th:object="${fileExtensionRequestDto}" method="post">
+            <form class="row row-cols-2" action="/extension" th:object="${fileExtensionRequestDto}" method="post"
+                  th:onsubmit="return validate()">
                 <div class="col-6">
                     <input class="form-control" type="text" th:field="*{extension}" placeholder='확장자 입력'/>
                 </div>
@@ -45,13 +48,14 @@
     </div>
     <div class="row gx-4">
         <div class="card col-6" style="margin-top : 10px">
-            <div class="card-body">
+            <div class="card-body" id="card">
                 <div> [[${customFileExtensionSize}]] / 200</div>
                 <div class="badge bg-success bg-primary" th:each="customFileExtension : ${customFileExtensionList}">
                     <label th:for="${customFileExtension.extension}">
                         [[${customFileExtension.extension}]]
                     </label>
-                    <form id="deleteCustomExtension" th:action="@{'/extension/'+${customFileExtension.extension}}" method="post">
+                    <form id="deleteCustomExtension" th:action="@{'/extension/'+${customFileExtension.extension}}"
+                          method="post">
                         <input type="hidden" name="_method" value="delete"/>
                         <button id="delete-btn" class="btn-close" aria-label="Close"></button>
                     </form>
@@ -69,6 +73,27 @@
 
 <script th:inline="javascript">
 
+    function validate() {
+        var input = document.getElementById("extension").value
+        if (input.length < 1 || input.length > 20 || !duplicateCheck(input)) {
+            alert("유효하지 않는 값입니다.")
+            return false;
+        }
+        return true;
+    }
+
+    function duplicateCheck(target) {
+        var size = document.getElementById("card").children.length;
+        var flag = true;
+        for (var i = 1; i < size; i++) {
+            if(target == document.getElementById("card").children[i].children[0].innerText) {
+                flag = false;
+                break;
+            }
+        }
+        return flag;
+    }
+
     function updateFixedOrNot(id) {
         var checkbox = document.getElementById(id);
         var isChecked = checkbox.getAttribute('checked');
@@ -81,21 +106,21 @@
         }
         console.log(document.getElementById(id));
         var isUse = checkbox.getAttribute('value');
-        // document.getElementById("update_" + id).addEventListener('click', function (id, isUse){
-        //     $.ajax({
-        //         type: "POST",
-        //         url: "/extension/" + id,
-        //         data: JSON.stringify({
-        //             extension : id,
-        //             isFixed : true,
-        //             isUse : isUse
-        //         }),
-        //         success: function (res) {
-        //         },
-        //         error: function (XMLHttpRequest, textStatus, errorThrown) {
-        //         }
-        //     });
-        // });
+        document.getElementById("update_" + id).addEventListener('click', function (id, isUse){
+            $.ajax({
+                type: "PUT",
+                url: "/extension/" + id,
+                data: JSON.stringify({
+                    extension : id,
+                    isFixed : true,
+                    isUse : isUse
+                }),
+                success: function (res) {
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                }
+            });
+        });
 
         document.getElementById("update_" + id).click();
     }

@@ -35,7 +35,7 @@ public class FileExtension {
     }
 
     private void validateLength(String extension) {
-        if (extension.length() > 20) {
+        if (extension.length() > 20 && extension.length() > 0) {
             throw new IllegalArgumentException();
         }
     }

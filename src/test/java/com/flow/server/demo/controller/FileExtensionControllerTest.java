@@ -2,6 +2,7 @@ package com.flow.server.demo.controller;
 
 import com.flow.server.demo.dto.FileExtensionRequestDto;
 import com.flow.server.demo.dto.FileExtensionResponseDto;
+import com.flow.server.demo.service.FileExtensionService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,13 +20,15 @@ public class FileExtensionControllerTest {
 
     @Autowired
     private FileExtensionController fileExtensionController;
+    @Autowired
+    private FileExtensionService fileExtensionService;
 
     @Test
     public void add() {
         FileExtensionRequestDto requestDto = new FileExtensionRequestDto("mp3");
         fileExtensionController.save(requestDto);
 
-        FileExtensionResponseDto responseDto = fileExtensionController.findById("mp3");
+        FileExtensionResponseDto responseDto = fileExtensionService.findById("mp3");
         assertThat(requestDto.toEntity().getExtension()).isEqualTo(responseDto.getExtension());
     }
 
@@ -35,7 +38,7 @@ public class FileExtensionControllerTest {
         fileExtensionController.save(requestDto);
 
         fileExtensionController.delete(requestDto.getExtension());
-        FileExtensionResponseDto responseDto = fileExtensionController.findById(requestDto.getExtension());
+        FileExtensionResponseDto responseDto = fileExtensionService.findById(requestDto.getExtension());
         assertThat(responseDto.getExtension()).isNull();
     }
 
@@ -47,7 +50,7 @@ public class FileExtensionControllerTest {
         requestDto.setUse(false);
         fileExtensionController.save(requestDto);
 
-        FileExtensionResponseDto findFileExtension = fileExtensionController.findById(requestDto.getExtension());
+        FileExtensionResponseDto findFileExtension = fileExtensionService.findById(requestDto.getExtension());
         assertThat(findFileExtension.isUse()).isFalse();
     }
 

@@ -4,12 +4,14 @@ import com.flow.server.demo.domain.FileExtension;
 import com.flow.server.demo.dto.FileExtensionRequestDto;
 import com.flow.server.demo.dto.FileExtensionResponseDto;
 import com.flow.server.demo.service.FileExtensionService;
+import com.flow.server.demo.utils.Constant;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 import java.awt.*;
@@ -36,7 +38,11 @@ public class FileExtensionController {
 
     @PostMapping("/extension")
     public String save(FileExtensionRequestDto fileExtensionRequestDto) {
-        fileExtensionService.save(fileExtensionRequestDto);
+        try {
+            fileExtensionService.save(fileExtensionRequestDto);
+        } catch (IllegalArgumentException exception) {
+            return "redirect:/";
+        }
         return "redirect:/";
     }
 
@@ -51,11 +57,6 @@ public class FileExtensionController {
     public String update(@PathVariable("id") String id, FileExtensionRequestDto fileExtensionRequestDto) {
         fileExtensionService.save(fileExtensionRequestDto);
         return "redirect:/";
-    }
-
-    @GetMapping("/extension")
-    public FileExtensionResponseDto findById(String extension) {
-        return fileExtensionService.findById(extension);
     }
 
     @GetMapping("extensions/fixed")
