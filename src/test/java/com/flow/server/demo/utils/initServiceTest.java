@@ -21,7 +21,7 @@ public class initServiceTest {
     public void init() {
         String[] fixedExtensions = Constant.FixedExtenstion;
         for (String fixedExtension : fixedExtensions) {
-            fileExtensionController.save(new FileExtensionRequestDto(fixedExtension, true));
+            fileExtensionController.save(new FileExtensionRequestDto(fixedExtension, true, false));
         }
         assertThat(fileExtensionController.findFixedExtensionAll().size()).isEqualTo(7);
     }

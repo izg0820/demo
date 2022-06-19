@@ -12,19 +12,23 @@ public class FileExtensionRequestDto {
 
     private String extension;
 
-    private boolean fixed;
+    private boolean isFixed;
+
+    private boolean isUse;
 
     public FileExtensionRequestDto(String extension) {
         this.extension = extension;
-        this.fixed = false;
+        this.isFixed = false;
+        this.isUse = true;
     }
 
-    public FileExtensionRequestDto(String extension, boolean fixed) {
+    public FileExtensionRequestDto(String extension, boolean isFixed, boolean isUse) {
         this.extension = extension;
-        this.fixed = fixed;
+        this.isFixed = isFixed;
+        this.isUse = isUse;
     }
 
     public FileExtension toEntity() {
-        return new FileExtension(extension, fixed);
+        return new FileExtension(extension, isFixed, isUse);
     }
 }

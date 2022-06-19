@@ -34,23 +34,23 @@ public class FileExtensionController {
 
     @Transactional(rollbackFor = Exception.class)
     @PostMapping("/extension")
-    public RedirectView save(FileExtensionRequestDto fileExtensionRequestDto) {
+    public String save(FileExtensionRequestDto fileExtensionRequestDto) {
         fileExtensionService.save(fileExtensionRequestDto);
-        return new RedirectView("/");
+        return "redirect:/";
     }
 
-    @Transactional(rollbackFor = Exception.class)
-    @DeleteMapping("/extension/{param}")
-    public void delete(@PathVariable String param) {
-        FileExtensionRequestDto requestDto = new FileExtensionRequestDto(param);
+    @DeleteMapping("/extension/{id}")
+    public String delete(@PathVariable("id") String id) {
+        FileExtensionRequestDto requestDto = new FileExtensionRequestDto(id);
         fileExtensionService.delete(requestDto);
+        return "redirect:/";
     }
 
-    @Transactional(rollbackFor = Exception.class)
-    @PutMapping("/extension")
-    public RedirectView update(FileExtensionRequestDto fileExtensionRequestDto) {
-        fileExtensionService.update(fileExtensionRequestDto);
-        return new RedirectView("/");
+    @PatchMapping("extension/{param}")
+    @Transactional
+    public String update(@PathVariable String param, @RequestBody FileExtensionRequestDto fileExtensionRequestDto) {
+        fileExtensionService.update(param, fileExtensionRequestDto);
+        return "redirect:/";
     }
 
     @GetMapping("/extension")

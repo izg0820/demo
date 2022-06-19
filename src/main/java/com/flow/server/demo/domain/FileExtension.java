@@ -14,20 +14,24 @@ public class FileExtension {
     @Id
     private String extension;
 
-    private boolean fixed;
+    private boolean isFixed;
+
+    private boolean isUse;
 
     public FileExtension(String extension) {
         validateLength(extension);
         validateCharacter(extension);
         this.extension = extension;
-        this.fixed = false;
+        this.isFixed = false;
+        this.isUse = true;
     }
 
-    public FileExtension(String extension, boolean fixed) {
+    public FileExtension(String extension, boolean isFixed, boolean isUse) {
         validateLength(extension);
         validateCharacter(extension);
         this.extension = extension;
-        this.fixed = fixed;
+        this.isFixed = isFixed;
+        this.isUse = isUse;
     }
 
     private void validateLength(String extension) {
