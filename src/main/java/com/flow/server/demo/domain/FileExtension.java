@@ -15,18 +15,18 @@ public class FileExtension {
 
     private boolean fixed;
 
-    private boolean useYn;
+    private boolean used;
 
     public FileExtension(String extension) {
         this.extension = extension;
         this.fixed = false;
-        this.useYn = true;
+        this.used = true;
     }
 
-    public FileExtension(String extension, boolean fixed, boolean useYn) {
+    public FileExtension(String extension, boolean fixed, boolean used) {
         this.extension = extension;
         this.fixed = fixed;
-        this.useYn = useYn;
+        this.used = used;
     }
 
     public String getExtension() {
@@ -37,7 +37,7 @@ public class FileExtension {
         return fixed;
     }
 
-    public boolean getUseYn() {
-        return useYn;
+    public boolean getUsed() {
+        return used;
     }
 }

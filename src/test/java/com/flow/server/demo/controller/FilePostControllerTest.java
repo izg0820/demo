@@ -48,11 +48,11 @@ public class FilePostControllerTest {
         FileExtensionRequestDto requestDto = new FileExtensionRequestDto("mp3");
         filePostController.save(requestDto);
 
-        requestDto.setUseYn(false);
+        requestDto.setUsed(false);
         filePostController.save(requestDto);
 
         FileExtensionResponseDto findFileExtension = fileExtensionService.findById(requestDto.getExtension());
-        assertThat(findFileExtension.getUseYn()).isFalse();
+        assertThat(findFileExtension.getUsed()).isFalse();
     }
 
     @Test

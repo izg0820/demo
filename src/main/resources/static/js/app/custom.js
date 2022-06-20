@@ -22,7 +22,7 @@ var main = {
         var requestParam = {
             extension: $('#custom_extension').val(),
             fixed: false,
-            useYn: true
+            used: true
         };
 
         $.ajax({
@@ -67,7 +67,7 @@ var main = {
         var requestParam = {
             extension: extension,
             fixed: true,
-            useYn: $('#'+id).prop('checked')
+            used: $('#'+id).prop('checked')
         };
 
         $.ajax({

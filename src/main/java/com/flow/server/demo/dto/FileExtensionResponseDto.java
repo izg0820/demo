@@ -12,12 +12,12 @@ public class FileExtensionResponseDto {
 
     private boolean fixed;
 
-    private boolean useYn;
+    private boolean used;
 
     public FileExtensionResponseDto(FileExtension entity) {
         this.extension = entity.getExtension();
         this.fixed = entity.getFixed();
-        this.useYn = entity.getUseYn();
+        this.used = entity.getUsed();
     }
 
     public String getExtension() {
@@ -28,8 +28,8 @@ public class FileExtensionResponseDto {
         return fixed;
     }
 
-    public boolean getUseYn() {
-        return useYn;
+    public boolean getUsed() {
+        return used;
     }
 
 }

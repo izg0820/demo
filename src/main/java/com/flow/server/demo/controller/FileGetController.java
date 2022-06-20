@@ -22,7 +22,7 @@ public class FileGetController {
         List<FileExtensionResponseDto> customFileExtensionList = fileExtensionService.findCustomExtensionAll();
 
         for(FileExtensionResponseDto fixedExtension : fixedFileExtensionList) {
-            fixedExtension.setUseYn(!fixedExtension.getUseYn());
+            fixedExtension.setUsed(!fixedExtension.getUsed());
         }
         model.addAttribute("fixedFileExtensionList", fixedFileExtensionList);
         model.addAttribute("customFileExtensionList", customFileExtensionList);
