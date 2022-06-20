@@ -12,22 +12,22 @@ public class FileExtensionRequestDto {
 
     private boolean fixed;
 
-    private boolean use;
+    private boolean useYn;
 
     public FileExtensionRequestDto(String extension) {
         this.extension = extension;
         this.fixed = false;
-        this.use = true;
+        this.useYn = true;
     }
 
     public FileExtensionRequestDto(String extension, boolean fixed, boolean use) {
         this.extension = extension;
         this.fixed = fixed;
-        this.use = use;
+        this.useYn = use;
     }
 
     public FileExtension toEntity() {
-        return new FileExtension(extension, fixed, use);
+        return new FileExtension(extension, fixed, useYn);
     }
 
     public String getExtension() {
@@ -38,8 +38,7 @@ public class FileExtensionRequestDto {
         return fixed;
     }
 
-    public boolean getUse() {
-        return use;
+    public boolean getUseYn() {
+        return useYn;
     }
-
 }
