@@ -20,35 +20,24 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-public class FileExtensionController {
+public class FilePostController {
 
     private final FileExtensionService fileExtensionService;
 
     @PostMapping("/api/extension")
-    public String save(@RequestBody FileExtensionRequestDto fileExtensionRequestDto) {
-        return fileExtensionService.save(fileExtensionRequestDto);
+    public void save(@RequestBody FileExtensionRequestDto fileExtensionRequestDto) {
+        fileExtensionService.save(fileExtensionRequestDto);
     }
 
-    @DeleteMapping("/extension/{id}")
-    public String delete(@PathVariable("id") String id) {
+    @DeleteMapping("/api/extension/{id}")
+    public void delete(@PathVariable("id") String id) {
         FileExtensionRequestDto requestDto = new FileExtensionRequestDto(id);
         fileExtensionService.delete(requestDto);
-        return "redirect:/";
     }
 
-    @PutMapping(value = "/extension/{id}")
-    public String update(@PathVariable("id") String id, FileExtensionRequestDto fileExtensionRequestDto) {
+    @PutMapping("/api/extension/{id}")
+    public void update(@PathVariable("id") String id, @RequestBody FileExtensionRequestDto fileExtensionRequestDto) {
         fileExtensionService.save(fileExtensionRequestDto);
-        return "redirect:/";
     }
 
-    @GetMapping("extensions/fixed")
-    public List<FileExtensionResponseDto> findFixedExtensionAll() {
-        return fileExtensionService.findFixedExtensionAll();
-    }
-
-    @GetMapping("extensions/custom")
-    public List<FileExtensionResponseDto> findCustomExtensionAll() {
-        return fileExtensionService.findCustomExtensionAll();
-    }
 }

@@ -1,6 +1,5 @@
 package com.flow.server.demo.domain;
 
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -8,42 +7,38 @@ import lombok.Setter;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
-@NoArgsConstructor @Getter @Setter
+@NoArgsConstructor @Setter
 @Entity
 public class FileExtension {
     @Id
     private String extension;
 
-    private boolean isFixed;
+    private boolean fixed;
 
-    private boolean isUse;
+    private boolean use;
 
     public FileExtension(String extension) {
-        validateLength(extension);
-        validateCharacter(extension);
         this.extension = extension;
-        this.isFixed = false;
-        this.isUse = true;
+        this.fixed = false;
+        this.use = true;
     }
 
-    public FileExtension(String extension, boolean isFixed, boolean isUse) {
-        validateLength(extension);
-        validateCharacter(extension);
+    public FileExtension(String extension, boolean fixed, boolean use) {
         this.extension = extension;
-        this.isFixed = isFixed;
-        this.isUse = isUse;
+        this.fixed = fixed;
+        this.use = use;
     }
 
-    private void validateLength(String extension) {
-        if (extension.length() > 20 && extension.length() > 0) {
-            throw new IllegalArgumentException();
-        }
+    public String getExtension() {
+        return extension;
     }
 
-    private void validateCharacter(String extension) {
-        if (!extension.matches("^[a-zA-Z0-9\\$]*$")) {
-            throw new IllegalArgumentException();
-        }
+    public boolean getFixed() {
+        return fixed;
+    }
+
+    public boolean getUse() {
+        return use;
     }
 
 }

@@ -2,45 +2,85 @@ var main = {
     init: function () {
         var _this = this;
         $("#btn_custom_save").on('click', function () {
-            _this.save();
-        })
+            _this.insertCustom();
+        });
+        $(".btn-close").on('click', function (e) {
+            _this.deleteCustom(e.target.id);
+        });
+        $(".form-check-input").on('click', function (e) {
+            _this.updateFixed(e.target.id);
+        });
+
     },
-    save: function () {
+    insertCustom: function () {
+
+        if (!this.validate()) {
+            alert("유효하지 않는 값입니다.")
+            return false;
+        }
+
         var requestParam = {
             extension: $('#custom_extension').val(),
-            isFixed: false,
-            isUse: true
+            fixed: false,
+            use: true
         };
 
         $.ajax({
             type: 'POST',
             url: '/api/extension',
-            dataType: 'json',
             contentType: 'application/json; charset=utf-8',
             data: JSON.stringify(requestParam)
         }).done(function () {
-            console.log("성공")
-            window.location.href = "/";
-        }).fail(function (error) {
-            alert(JSON.parse(error));
+            window.location.href = '/';
+        }).fail(function (request, error) {
+            console.log("code " + request.status + "\n" + "message:" + request.responseText + "\n" + "error" + error);
         })
     }, validate: function () {
         var input = $('#custom_extension').val();
         if (input.length < 1 || input.length > 20 || !/^[a-zA-Z0-9\$]*$/.test(input) || !this.duplicateCheck(input)) {
-            alert("유효하지 않는 값입니다.")
             return false;
         }
         return true;
     }, duplicateCheck: function (target) {
-        var size = document.getElementById("card").children.length;
-        var flag = true;
-        for (var i = 1; i < size; i++) {
-            if (target == document.getElementById("card").children[i].children[0].innerText) {
-                flag = false;
-                break;
-            }
+        var customList = $('#deleteCustomExtension').children().children().text();
+        if (customList.indexOf(target) > -1) {
+            return false;
         }
-        return flag;
+        return true;
+    }, deleteCustom: function (id) {
+
+        var requestParam = $('#' + id).parent().text().trim()
+        console.log(requestParam);
+
+        $.ajax({
+            type: 'DELETE',
+            url: '/api/extension/' + requestParam,
+            contentType: 'application/json; charset=utf-8'
+        }).done(function () {
+            window.location.href = '/';
+        }).fail(function (request, error) {
+            console.log("code " + request.status + "\n" + "message:" + request.responseText + "\n" + "error" + error);
+        })
+    }, updateFixed(id) {
+
+        var extension = $('#'+id).siblings().first().text();
+        var requestParam = {
+            extension: extension,
+            fixed: true,
+            use: $('#'+id).prop('checked')
+        };
+
+        $.ajax({
+            type: 'PUT',
+            url: '/api/extension/' + extension,
+            contentType: 'application/json; charset=utf-8',
+            data: JSON.stringify(requestParam)
+        }).done(function () {
+            window.location.href = '/';
+        }).fail(function (request, error) {
+            console.log("code " + request.status + "\n" + "message:" + request.responseText + "\n" + "error" + error);
+        })
+
     }
 };
 

@@ -12,7 +12,7 @@ import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
-public class IndexController {
+public class FileGetController {
 
     private final FileExtensionService fileExtensionService;
 
@@ -21,9 +21,22 @@ public class IndexController {
         List<FileExtensionResponseDto> fixedFileExtensionList = fileExtensionService.findFixedExtensionAll();
         List<FileExtensionResponseDto> customFileExtensionList = fileExtensionService.findCustomExtensionAll();
 
+        for(FileExtensionResponseDto fixedExtension : fixedFileExtensionList) {
+            fixedExtension.setUse(!fixedExtension.getUse());
+        }
         model.addAttribute("fixedFileExtensionList", fixedFileExtensionList);
         model.addAttribute("customFileExtensionList", customFileExtensionList);
         model.addAttribute("customFileExtensionSize", customFileExtensionList.size());
         return "index";
+    }
+
+    @GetMapping("extensions/fixed")
+    public List<FileExtensionResponseDto> findFixedExtensionAll() {
+        return fileExtensionService.findFixedExtensionAll();
+    }
+
+    @GetMapping("extensions/custom")
+    public List<FileExtensionResponseDto> findCustomExtensionAll() {
+        return fileExtensionService.findCustomExtensionAll();
     }
 }

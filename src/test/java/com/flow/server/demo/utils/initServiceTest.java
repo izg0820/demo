@@ -1,6 +1,7 @@
 package com.flow.server.demo.utils;
 
-import com.flow.server.demo.controller.FileExtensionController;
+import com.flow.server.demo.controller.FilePostController;
+import com.flow.server.demo.controller.FileGetController;
 import com.flow.server.demo.dto.FileExtensionRequestDto;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,15 +16,18 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class initServiceTest {
 
     @Autowired
-    private FileExtensionController fileExtensionController;
+    private FilePostController filePostController;
+
+    @Autowired
+    private FileGetController fileGetController;
 
     @Test
     public void init() {
         String[] fixedExtensions = Constant.FixedExtenstion;
         for (String fixedExtension : fixedExtensions) {
-            fileExtensionController.save(new FileExtensionRequestDto(fixedExtension, true, false));
+            filePostController.save(new FileExtensionRequestDto(fixedExtension, true, false));
         }
-        assertThat(fileExtensionController.findFixedExtensionAll().size()).isEqualTo(7);
+        assertThat(fileGetController.findFixedExtensionAll().size()).isEqualTo(7);
     }
 
 }

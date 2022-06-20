@@ -12,21 +12,22 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.tuple;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class FileExtensionControllerTest {
+public class FilePostControllerTest {
 
     @Autowired
-    private FileExtensionController fileExtensionController;
+    private FilePostController filePostController;
     @Autowired
     private FileExtensionService fileExtensionService;
+    @Autowired
+    private FileGetController fileGetController;
 
     @Test
     public void add() {
         FileExtensionRequestDto requestDto = new FileExtensionRequestDto("mp3");
-        fileExtensionController.save(requestDto);
+        filePostController.save(requestDto);
 
         FileExtensionResponseDto responseDto = fileExtensionService.findById("mp3");
         assertThat(requestDto.toEntity().getExtension()).isEqualTo(responseDto.getExtension());
@@ -35,9 +36,9 @@ public class FileExtensionControllerTest {
     @Test
     public void delete() {
         FileExtensionRequestDto requestDto = new FileExtensionRequestDto("mp3");
-        fileExtensionController.save(requestDto);
+        filePostController.save(requestDto);
 
-        fileExtensionController.delete(requestDto.getExtension());
+        filePostController.delete(requestDto.getExtension());
         FileExtensionResponseDto responseDto = fileExtensionService.findById(requestDto.getExtension());
         assertThat(responseDto.getExtension()).isNull();
     }
@@ -45,34 +46,34 @@ public class FileExtensionControllerTest {
     @Test
     public void update() {
         FileExtensionRequestDto requestDto = new FileExtensionRequestDto("mp3");
-        fileExtensionController.save(requestDto);
+        filePostController.save(requestDto);
 
         requestDto.setUse(false);
-        fileExtensionController.save(requestDto);
+        filePostController.save(requestDto);
 
         FileExtensionResponseDto findFileExtension = fileExtensionService.findById(requestDto.getExtension());
-        assertThat(findFileExtension.isUse()).isFalse();
+        assertThat(findFileExtension.getUse()).isFalse();
     }
 
     @Test
     public void findCustomExtensionAll() {
         FileExtensionRequestDto requestDto1 = new FileExtensionRequestDto("mp3", false, true);
-        fileExtensionController.save(requestDto1);
+        filePostController.save(requestDto1);
         FileExtensionRequestDto requestDto2 = new FileExtensionRequestDto("mp4", false, true);
-        fileExtensionController.save(requestDto2);
+        filePostController.save(requestDto2);
 
-        List<FileExtensionResponseDto> responseDto = fileExtensionController.findCustomExtensionAll();
+        List<FileExtensionResponseDto> responseDto = fileGetController.findCustomExtensionAll();
         assertThat(responseDto).extracting("fixed").containsExactly(false, false);
     }
 
     @Test
     public void findDefaultExtensionAll() {
         FileExtensionRequestDto requestDto1 = new FileExtensionRequestDto("cmd", true, true);
-        fileExtensionController.save(requestDto1);
+        filePostController.save(requestDto1);
         FileExtensionRequestDto requestDto2 = new FileExtensionRequestDto("exe", true, true);
-        fileExtensionController.save(requestDto2);
+        filePostController.save(requestDto2);
 
-        List<FileExtensionResponseDto> responseDto = fileExtensionController.findFixedExtensionAll();
+        List<FileExtensionResponseDto> responseDto = fileGetController.findFixedExtensionAll();
         assertThat(responseDto).extracting("fixed").containsExactly(true, true);
     }
 

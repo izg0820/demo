@@ -12,9 +12,9 @@ import java.util.List;
 @Transactional
 public interface FileExtensionRepository extends JpaRepository<FileExtension, String> {
 
-    @Query("select f from FileExtension f where f.isFixed = true")
+    @Query("select f from FileExtension f where f.fixed = true")
     List<FileExtension> findByFixed();
 
-    @Query("select f from FileExtension f where f.isFixed = false")
+    @Query("select f from FileExtension f where f.fixed = false")
     List<FileExtension> findByCustom();
 }
