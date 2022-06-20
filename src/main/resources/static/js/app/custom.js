@@ -42,11 +42,15 @@ var main = {
         }
         return true;
     }, duplicateCheck: function (target) {
-        var customList = $('#deleteCustomExtension').children().children().text();
-        if (customList.indexOf(target) > -1) {
-            return false;
+        var customList = $('#deleteCustomExtension').children().children();
+        var flag = true;
+        for(var i =0; i<customList.length; i++) {
+            if(customList.eq(i).text().trim() == target) {
+                flag = false;
+                break;
+            }
         }
-        return true;
+        return flag;
     }, deleteCustom: function (id) {
 
         var requestParam = $('#' + id).parent().text().trim()
